@@ -7,9 +7,10 @@ const { User } = require("../models/user");
 
 const secret = process.env.SECRET;
 
-// @route    GET api/auth
+// @route    GET /auth
 // @desc     Get user by token
 // @access   Private
+
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
@@ -27,6 +28,7 @@ router.get(
 // @route    POST /auth/login
 // @desc     Login
 // @access   Public
+
 router.post(
   "/login",
   check("email", "Please include a valid email").isEmail(),
@@ -60,6 +62,7 @@ router.post(
 // @route    DELETE /auth/logout
 // @desc     Logout
 // @access   Private
+
 router.delete(
   "/logout",
   passport.authenticate("jwt", { session: false }),

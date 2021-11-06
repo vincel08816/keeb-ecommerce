@@ -6,7 +6,7 @@ const { User } = require("../models/user");
 const passport = require("passport");
 
 const secret = process.env.SECRET;
-const auth = () => passport.authenticate("jwt", { session: false });
+// const auth = () => passport.authenticate("jwt", { session: false });
 
 // @route    POST /users/register
 // @desc     Register user
@@ -19,7 +19,7 @@ router.post(
   check("email", "Please include a valid email").isEmail(),
   check(
     "password",
-    "Please enter a password at least 8 character and contain at least one uppercase. At least one lower case. At least one special character."
+    "Please enter a password at least 8 character and contain at least one uppercase letter, one lower case letter, and one special character."
   )
     .isLength({ min: 8 })
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/),
@@ -54,13 +54,21 @@ router.post(
   }
 );
 
-router.put("/edit", auth, (req, res) => {
-  try {
-    res.json();
-  } catch (error) {
-    res.sendStatus(500);
+// @route    POST /users/edit
+// @desc     Edit User
+// @access   Private
+
+router.put(
+  "/edit",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    try {
+      res.json();
+    } catch (error) {
+      res.sendStatus(500);
+    }
   }
-});
+);
 // router.put("/forgotpassword", (req, res) => {});
 // router.put("/", (req, res) => {});
 // router.delete("/", (req, res) => {});

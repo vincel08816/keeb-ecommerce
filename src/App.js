@@ -1,19 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import * as User from "./views/User";
+import { Route } from "react-router-dom";
+import "./App.css";
+import { PrivateRoute } from "./components/App/RouteTypes";
+import Wrapper from "./components/App/Wrapper";
+import * as User from "./components/User";
 
+const Home = () => <div>Home</div>;
 const NotFound = () => <div>404</div>;
+const Edit = () => <div>Edit</div>;
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/login" component={User.Login} />
-        <Route path="/signup" component={User.Signup} />
-        <Route path="*" component={NotFound} />
-      </Switch>
-    </Router>
+    <Wrapper>
+      <Route path="/" exact component={Home} />
+      <Route path="/login" exact component={User.Login} />
+      <Route path="/signup" exact component={User.Signup} />
+
+      <PrivateRoute path="/user" exact component={Edit} />
+
+      <Route path="*" component={NotFound} />
+    </Wrapper>
   );
 }
-
-export default App;
