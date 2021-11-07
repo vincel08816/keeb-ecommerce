@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, NavLink, Switch } from "react-router-dom";
 import { UserProvider } from "../../contexts-hooks/UserContext";
 
 const theme = createTheme({});
@@ -34,7 +34,11 @@ const BaseView = ({ children }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Keeb
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">
+            <NavLink to="/login" style={{ textDecoration: "none" }}>
+              Login
+            </NavLink>
+          </Button>
         </Toolbar>
       </AppBar>
       <main style={mainStyle}>{children}</main>
@@ -45,11 +49,11 @@ const BaseView = ({ children }) => {
 const Wrapper = ({ children }) => (
   <ThemeProvider theme={theme}>
     <UserProvider>
-      <BaseView>
-        <Router>
+      <Router>
+        <BaseView>
           <Switch>{children}</Switch>
-        </Router>
-      </BaseView>
+        </BaseView>
+      </Router>
     </UserProvider>
   </ThemeProvider>
 );

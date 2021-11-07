@@ -41,19 +41,19 @@ export default function Signup() {
 
     const validity = {
       firstName: {
-        check: firstName?.value?.length,
+        check: () => firstName?.value?.length,
         error: "You must have a first name",
       },
       lastName: {
-        check: lastName?.value?.length,
+        check: () => lastName?.value?.length,
         error: "You must have a last name",
       },
       email: {
-        check: /\S+@\S+\.\S+/.test(email?.value),
+        check: () => /\S+@\S+\.\S+/.test(email?.value),
         error: "Invalid email address",
       },
       password: {
-        check:
+        check: () =>
           password?.value?.length >= 8 &&
           /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/.test(
             password?.value
@@ -62,7 +62,7 @@ export default function Signup() {
           "Please enter a password at least 8 character and contain at least a uppercase, lowercase, and a special character.",
       },
       confirmPassword: {
-        check: password?.value === confirmPassword?.value,
+        check: () => password?.value === confirmPassword?.value,
         error: "Passwords do not match",
       },
     };
@@ -72,7 +72,7 @@ export default function Signup() {
         dispatch({
           type: "error",
           field: userProperty,
-          value: validity[userProperty].check
+          value: validity[userProperty].check()
             ? ""
             : validity[userProperty].error,
         });
