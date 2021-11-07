@@ -25,6 +25,8 @@ export default function Signup() {
     }
   }, {});
 
+  const { firstName, lastName, email, password, confirmPassword } = formState;
+
   const handleChange = (e) => {
     setError();
     dispatch({
@@ -35,71 +37,57 @@ export default function Signup() {
   };
 
   const validate = useCallback(() => {
-    const validateEmail = () => {
-      if (!formState.email) return;
-      const re = /\S+@\S+\.\S+/;
-      const valid = re.test(formState.email.value);
-      dispatch({
-        type: "error",
-        field: "email",
-        value: valid ? "" : "Invalid email address",
-      });
+    let { firstName, lastName, email, password, confirmPassword } = formState;
+
+    const validity = {
+      firstName: {
+        check: firstName?.value?.length,
+        error: "You must have a first name",
+      },
+      lastName: {
+        check: lastName?.value?.length,
+        error: "You must have a last name",
+      },
+      email: {
+        check: /\S+@\S+\.\S+/.test(email?.value),
+        error: "Invalid email address",
+      },
+      password: {
+        check:
+          password?.value?.length >= 8 &&
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/.test(
+            password?.value
+          ),
+        error:
+          "Please enter a password at least 8 character and contain at least a uppercase, lowercase, and a special character.",
+      },
+      confirmPassword: {
+        check: password?.value === confirmPassword?.value,
+        error: "Passwords do not match",
+      },
     };
-    const validateName = () => {
-      if (!formState.name) return;
-      if (!formState.name.value.length) {
+
+    for (let userProperty in validity) {
+      if (formState[userProperty]?.value) {
         dispatch({
           type: "error",
-          field: "name",
-          value: "You must have a nickname",
+          field: userProperty,
+          value: validity[userProperty].check
+            ? ""
+            : validity[userProperty].error,
         });
       }
-    };
-
-    const validatePassword = () => {
-      if (!formState.password) return;
-      const password = formState.password.value;
-      const valid =
-        password?.length >= 8 && // 8 or more chars
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/.test(password); // contains a digit
-      dispatch({
-        type: "error",
-        field: "password",
-        value: valid
-          ? ""
-          : "Please enter a password at least 8 character and contain at least a uppercase, lowercase, and a special character.",
-      });
-    };
-
-    const validateConfirmPassword = () => {
-      if (!formState.password || !formState.confirmPassword) return;
-      const valid =
-        formState.password.value === formState.confirmPassword.value;
-      dispatch({
-        type: "error",
-        field: "confirmPassword",
-        value: valid ? "" : "Passwords do not match",
-      });
-    };
-
-    validateName();
-    validateEmail();
-    validatePassword();
-    validateConfirmPassword();
+    }
 
     return (
       !error &&
+      formState.firstName &&
+      formState.lastName &&
       formState.email &&
       formState.password?.value &&
       formState.password?.value === formState.confirmPassword?.value
     );
-  }, [
-    error,
-    formState.name,
-    formState.confirmPassword,
-    formState.email,
-    formState.password,
-  ]);
+  }, [error, formState]);
 
   useEffect(() => {
     validate();
@@ -133,36 +121,36 @@ export default function Signup() {
         label="First Name"
         name="firstName"
         onChange={handleChange}
-        value={formState.firstName?.value ?? ""}
-        error={Boolean(formState.firstName?.error)}
-        helperText={formState.firstName?.error}
+        value={firstName?.value ?? ""}
+        error={Boolean(firstName?.error)}
+        helperText={firstName?.error}
         style={{ marginBottom: "20px" }}
       />
       <TextField
         label="Last Name"
         name="lastName"
         onChange={handleChange}
-        value={formState.lastName?.value ?? ""}
-        error={Boolean(formState.lastName?.error)}
-        helperText={formState.lastName?.error}
+        value={lastName?.value ?? ""}
+        error={Boolean(lastName?.error)}
+        helperText={lastName?.error}
         style={{ marginBottom: "20px" }}
       />
       <TextField
         label="Email Address"
         name="email"
         onChange={handleChange}
-        value={formState.email?.value ?? ""}
-        error={Boolean(formState.email?.error)}
-        helperText={formState.email?.error}
+        value={email?.value ?? ""}
+        error={Boolean(email?.error)}
+        helperText={email?.error}
         style={{ marginBottom: "20px" }}
       />
       <TextField
         label="Password"
         name="password"
         onChange={handleChange}
-        value={formState.password?.value ?? ""}
-        error={Boolean(formState.password?.error)}
-        helperText={formState.password?.error}
+        value={password?.value ?? ""}
+        error={Boolean(password?.error)}
+        helperText={password?.error}
         type="password"
         style={{ marginBottom: "20px" }}
       />
@@ -170,9 +158,9 @@ export default function Signup() {
         label="Confirm Password"
         name="confirmPassword"
         onChange={handleChange}
-        value={formState.confirmPassword?.value ?? ""}
-        error={Boolean(formState.confirmPassword?.error)}
-        helperText={formState.confirmPassword?.error}
+        value={confirmPassword?.value ?? ""}
+        error={Boolean(confirmPassword?.error)}
+        helperText={confirmPassword?.error}
         type="password"
         style={{ marginBottom: "20px" }}
       />
@@ -185,11 +173,10 @@ export default function Signup() {
         onClick={async () => {
           if (!validate()) return;
           try {
-            alert(formState.name.value);
             await axios.post("/users/register", {
-              name: formState.name.value,
-              email: formState.email.value,
-              password: formState.password.value,
+              name: { firstName: firstName.value, lastName: lastName.value },
+              email: email.value,
+              password: password.value,
             });
             history.push("/login");
           } catch (err) {
@@ -201,7 +188,9 @@ export default function Signup() {
       >
         Register
       </Button>
-      <NavLink to="/login">I already have an account</NavLink>
+      <NavLink to="/login">
+        I already have an account. Take me to the login!
+      </NavLink>
     </Paper>
   );
 }

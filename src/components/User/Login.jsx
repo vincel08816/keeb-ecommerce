@@ -112,7 +112,7 @@ export default function Login() {
       >
         Login
       </Button>
-      <NavLink to="/login">Register</NavLink>
+      <NavLink to="/signup">Register</NavLink>
     </Paper>
   );
 }
