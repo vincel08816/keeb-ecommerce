@@ -36,7 +36,7 @@ export default function DrawerComponent() {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <Box sx={{ fontWeight: "heavy", p: 1, pt: 2, pl: 2 }}>
+      <Box sx={{ fontWeight: "heavy", p: 2, pb: 0 }}>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
           Shop
         </Typography>
@@ -70,7 +70,7 @@ export default function DrawerComponent() {
           "Customer Service",
           "Sign Out",
         ].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} sx={{ height: "62px" }}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>

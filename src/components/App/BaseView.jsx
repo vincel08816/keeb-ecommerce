@@ -2,6 +2,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 import DrawerComponent from "./DrawerComponent";
 
 const rightBoxStyle = { flexDirection: "row-reverse" };
@@ -10,30 +11,43 @@ const buttonSx = { width: 50, height: 50 };
 
 export default function BaseView({ children }) {
   return (
-    <Box>
+    <BaseStyle>
       <AppBar position="static">
         <Toolbar>
           <DrawerComponent />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Keeb
+            <Link to="/">Keeb</Link>
           </Typography>
           <Box sx={{ rightBoxStyle }}>
-            <IconButton color="inherit" sx={buttonSx}>
-              <NavLink to="/login" style={{ textDecoration: "none" }}>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <IconButton color="inherit" sx={buttonSx}>
                 <PersonIcon sx={iconSx} />
-              </NavLink>
-            </IconButton>
-            <IconButton color="inherit" sx={buttonSx}>
-              <NavLink to="/login" style={{ textDecoration: "none" }}>
+              </IconButton>
+            </Link>
+
+            <Link to="/login" style={{}}>
+              <IconButton color="inherit" sx={buttonSx}>
                 <ShoppingCartIcon sx={iconSx} />
-              </NavLink>
-            </IconButton>
+              </IconButton>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>
       <main style={{ display: "flex", justifyContent: "center" }}>
         {children}
       </main>
-    </Box>
+    </BaseStyle>
   );
 }
+
+const BaseStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const Link = styled(NavLink)`
+  color: white;
+  text-decoration: none;
+`;

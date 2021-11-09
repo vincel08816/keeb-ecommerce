@@ -4,8 +4,8 @@ import "./App.css";
 import { PrivateRoute } from "./components/App/RouteTypes";
 import Wrapper from "./components/App/Wrapper";
 import * as User from "./components/User";
+import Home from './components/Home'
 
-const Home = () => <div>Home</div>;
 const NotFound = () => <div>404</div>;
 const Edit = () => <div>Edit</div>;
 
