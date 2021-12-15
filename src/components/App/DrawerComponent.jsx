@@ -1,4 +1,3 @@
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Box, Divider, Drawer, IconButton, List } from "@mui/material";
@@ -36,11 +35,9 @@ export default function DrawerComponent() {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <Box sx={{ fontWeight: "heavy", p: 2, pb: 0 }}>
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Shop
-        </Typography>
-      </Box>
+      <Typography variant="h6" sx={{ p: 2, pb: 0, fontWeight: 600 }}>
+        Shop
+      </Typography>
       <List>
         {Sections.map(({ text, icon }, index) => (
           <ListItem button key={text}>
@@ -57,22 +54,20 @@ export default function DrawerComponent() {
       </List>
       <Divider sx={{ mb: 2 }} />
 
-      <Box sx={{ fontWeight: "heavy", p: 1, pl: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Help {"&"} Settings
-        </Typography>
-      </Box>
+      <Typography variant="h6" sx={{ fontWeight: 600, p: 1, pl: 2 }}>
+        Help {"&"} Settings
+      </Typography>
       <List>
         {[
           "Your Account",
           "English",
-          "UnitedStates",
+          "United States",
           "Customer Service",
           "Sign Out",
         ].map((text, index) => (
           <ListItem button key={text} sx={{ height: "62px" }}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <InboxIcon sx={{ width: "40px", p: "3px 15px 3px 3px" }} />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>

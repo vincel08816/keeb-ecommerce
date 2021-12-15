@@ -1,6 +1,13 @@
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import DrawerComponent from "./DrawerComponent";
@@ -16,7 +23,9 @@ export default function BaseView({ children }) {
         <Toolbar>
           <DrawerComponent />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/">Keeb</Link>
+            <Button sx={{ fontSize: "20px" }}>
+              <Link to="/">Keeb</Link>
+            </Button>
           </Typography>
           <Box sx={{ rightBoxStyle }}>
             <Link to="/login" style={{ textDecoration: "none" }}>
@@ -24,8 +33,7 @@ export default function BaseView({ children }) {
                 <PersonIcon sx={iconSx} />
               </IconButton>
             </Link>
-
-            <Link to="/login" style={{}}>
+            <Link to="/cart" style={{}}>
               <IconButton color="inherit" sx={buttonSx}>
                 <ShoppingCartIcon sx={iconSx} />
               </IconButton>
@@ -42,6 +50,7 @@ export default function BaseView({ children }) {
 
 const BaseStyle = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
